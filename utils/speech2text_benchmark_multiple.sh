@@ -32,5 +32,15 @@ do
 
 done
 
+echo ""
+echo ""
+
+min=`awk 'BEGIN{a=999999999999}{if ($1<0+a) a=$1} END{print a}' $output_file_name`
+max=`awk 'BEGIN{a=           0}{if ($1>0+a) a=$1} END{print a}' $output_file_name`
+avg=`awk '{ sum += $1; n++ } END { if (n > 0) print sum / n; }' $output_file_name`
+
+#echo "${min}, ${max}, ${avg}"
+echo "${min}, ${max}, ${avg}"
+
 # waiting for all the """parallel""" speech2text to complete
 # wait
