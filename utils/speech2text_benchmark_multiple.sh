@@ -20,6 +20,8 @@ output_file_name="\
 
 rm -f $output_file_name
 
+echo "Batch size: $batch_size"
+
 # placing $num_of_batches speech2text_benchmark_parallel calls
 for (( i=1; i<=$num_of_batches; i++ ))
 do
