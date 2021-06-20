@@ -35,14 +35,11 @@ done
 echo ""
 echo ""
 
-repeated_min=`awk '{ sum += $1; n++ } END { if (n > 0) print sum / n; }' $file_name`
-repeated_max=`awk '{ sum += $2; n++ } END { if (n > 0) print sum / n; }' $file_name`
-repeated_avg=`awk '{ sum += $3; n++ } END { if (n > 0) print sum / n; }' $file_name`
+repeated_min=`awk '{ sum += $1; n++ } END { if (n > 0) print sum / n; }' $output_file_name`
+repeated_max=`awk '{ sum += $2; n++ } END { if (n > 0) print sum / n; }' $output_file_name`
+repeated_avg=`awk '{ sum += $3; n++ } END { if (n > 0) print sum / n; }' $output_file_name`
 
 echo "${repeated_min}, ${repeated_max}, ${repeated_avg}"
-
-#echo "${min}, ${max}, ${avg}"
-echo "${min}, ${max}, ${avg}"
 
 # waiting for all the """parallel""" speech2text to complete
 # wait
