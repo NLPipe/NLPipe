@@ -36,3 +36,4 @@
 ehthumbs.db
 Thumbs.db
 /benchmark_results/speech2text/*/*.txt
+/deploy/Lambda/speech2text/outputs/*
