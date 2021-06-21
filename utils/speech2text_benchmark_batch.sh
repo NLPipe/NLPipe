@@ -18,7 +18,7 @@ file_name="${full_file_name%.*}"
 dir_name=$file_name
 process_pid=$$
 output_file_name="\
-  ../benchmark_results/speech2text/${dir_name}/${file_name}_${batch_size}_${num_of_batches}.txt\
+  ../benchmark_results/speech2text/${dir_name}/${file_name}_${batch_size}.txt\
 "
 tmp_file_name="../benchmark_results/speech2text/${dir_name}/${process_pid}.txt"
 
