@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  An Amazon S3 trigger that retrieves metadata for the object that has been
+  updated.
+Resources:
+  speech2text:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: .
+      Description: >-
+        An Amazon S3 trigger that retrieves metadata for the object that has
+        been updated.
+      MemorySize: 256
+      Timeout: 63
+      Role: 'arn:aws:iam::528902077445:role/speech2text_tailored-role'
+      Events:
+        BucketEvent1:
+          Type: S3
+          Properties:
+            Bucket:
+              Ref: Bucket1
+            Events:
+              - 's3:ObjectCreated:*'
+      Tags:
+        'lambda-console:blueprint': s3-get-object-python
+      Layers:
+        - 'arn:aws:lambda:us-east-1:528902077445:layer:speech_recognition:3'
+  Bucket1:
+    Type: 'AWS::S3::Bucket'
