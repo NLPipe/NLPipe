@@ -15,7 +15,7 @@ dir_name=$file_name
 # process_pid=$(date +%s)
 process_pid=$$
 output_file_name="\
-  ../benchmark_results/speech2text/${dir_name}/${file_name}_${batch_size}_${num_of_batches}.txt\
+  ../benchmark_results/speech2text/${dir_name}/${file_name}_${batch_size}.txt\
 "
 
 # rm -f $output_file_name
