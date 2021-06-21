@@ -1,6 +1,9 @@
 args=("$@")
 batch_size=${args[0]}
-file_name="${args[1]}"
+full_file_name="${args[1]}"
+
+extension="${full_file_name##*.}"
+file_name="${full_file_name%.*}"
 
 for (( i=1; i<=$batch_size; i++ ))
 do
@@ -33,7 +36,7 @@ do
             \"arn\": \"arn:aws:s3:::nlpipe-test-stt\"
           },
           \"object\": {
-            \"key\": \"${file_name}/${file_name}_${i}.wav\",
+            \"key\": \"${file_name}/${file_name}_${i}.${extension}\",
             \"size\": 1024,
             \"eTag\": \"0123456789abcdef0123456789abcdef\",
             \"sequencer\": \"0A1B2C3D4E5F678901\"
