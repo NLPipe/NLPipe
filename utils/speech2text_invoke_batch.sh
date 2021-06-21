@@ -18,8 +18,7 @@ do
   aws lambda invoke \
   --function-name speech2text \
   --invocation-type Event \
-  --payload "fileb://../deploy/Lambda/speech2text/inputs/"\
-  "${full_file_name}/${full_file_name}_${i}.json" \
+  --payload "fileb://../deploy/Lambda/speech2text/inputs/${file_name}/${file_name}_${i}.json" \
   ../deploy/Lambda/speech2text/outputs/speech2text_output.json >> \
   ../deploy/Lambda/speech2text/outputs/speech2text_output.txt &
 
