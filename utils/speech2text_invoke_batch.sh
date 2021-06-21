@@ -5,7 +5,10 @@
 
 args=("$@")
 batch_size=${args[0]}
-file_name="${args[1]}"
+full_file_name="${args[1]}"
+
+extension="${full_file_name##*.}"
+file_name="${full_file_name%.*}"
 
 echo "Placing $batch_size parallel calls..."
 
@@ -15,7 +18,8 @@ do
   aws lambda invoke \
   --function-name speech2text \
   --invocation-type Event \
-  --payload "fileb://../deploy/Lambda/speech2text/inputs/${file_name}/${file_name}_${i}.json" \
+  --payload "fileb://../deploy/Lambda/speech2text/inputs/"\
+  "${full_file_name}/${full_file_name}_${i}.json" \
   ../deploy/Lambda/speech2text/outputs/speech2text_output.json >> \
   ../deploy/Lambda/speech2text/outputs/speech2text_output.txt &
 
