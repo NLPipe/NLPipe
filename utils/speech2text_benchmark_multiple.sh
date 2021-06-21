@@ -18,7 +18,7 @@ output_file_name="\
   ../benchmark_results/speech2text/${dir_name}/${file_name}_${batch_size}_${num_of_batches}.txt\
 "
 
-rm -f $output_file_name
+# rm -f $output_file_name
 
 echo "Batch size: $batch_size"
 
