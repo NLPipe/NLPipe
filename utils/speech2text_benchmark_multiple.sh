@@ -45,6 +45,3 @@ $output_file_name`
 
 echo "Updated min, max and avg: \
 ${repeated_min}, ${repeated_max}, ${repeated_avg}"
-
-# waiting for all the """parallel""" speech2text to complete
-# wait
