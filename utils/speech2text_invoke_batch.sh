@@ -7,7 +7,6 @@ args=("$@")
 batch_size=${args[0]}
 full_file_name="${args[1]}"
 
-extension="${full_file_name##*.}"
 file_name="${full_file_name%.*}"
 
 echo "Placing $batch_size parallel calls..."
