@@ -6,3 +6,12 @@ services:
     ports:
       - 8000:8000
     restart: unless-stopped
+
+  s3:
+    image: adobe/s3mock
+    environment:
+      - initialBuckets=nlpipe
+    ports:
+      - 9090:9090
+      - 9091:9091
+    restart: unless-stopped

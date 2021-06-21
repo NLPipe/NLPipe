@@ -28,10 +28,28 @@ func homePage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	fmt.Println(ioutil.ReadAll(r.Body))
 	uuidBytes, _ := ioutil.ReadFile("/proc/sys/kernel/random/uuid")
 	uuid := string(uuidBytes)
 	fmt.Println("UUID:", uuid)
+
+	body, err := ioutil.ReadAll(r.Body)
+	if len(body) == 0 {
+		log.Fatalf("Empty body. Cannot process %v", uuid)
+		w.WriteHeader(400)
+	}
+	if err != nil {
+		log.Fatalf("Error while reading file %v %v", uuid, err)
+		w.WriteHeader(400)
+	}
+
+	result, err := uploadFile(uuid, body)
+
+	if err != nil {
+		log.Fatalf("Error during the upload of the file %v %v", uuid, err)
+		w.WriteHeader(500)
+	}
+
+	fmt.Printf("Result for %v: %v", uuid, result)
 }
 
 func result(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
