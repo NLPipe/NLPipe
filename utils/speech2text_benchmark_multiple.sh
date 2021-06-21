@@ -18,8 +18,6 @@ output_file_name="\
   ../benchmark_results/speech2text/${dir_name}/${file_name}_${batch_size}.txt\
 "
 
-# rm -f $output_file_name
-
 echo "Batch size: $batch_size"
 
 # placing $num_of_batches speech2text_benchmark_parallel calls
