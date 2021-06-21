@@ -9,5 +9,5 @@ file_name="${args[0]}"
 aws lambda invoke \
 --function-name speech2text \
 --invocation-type Event \
---payload "fileb://../inputs/speech2text_input_${file_name}.json" \
+--payload "fileb://../deploy/Lambda/tests/inputs/speech2text/${file_name}.json" \
 ../outputs/speech2text_output.json
