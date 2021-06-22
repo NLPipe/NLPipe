@@ -6,7 +6,7 @@ import sys
 import datetime
 
 import nltk
-nltk.download('movie_reviews')
+nltk.download('movie_reviews', quiet=True)
 
 import pickle
 
