@@ -1,19 +1,26 @@
-FROM golang:1.15
+## STAGE 1
+FROM golang:1.15 as builder
 
-#ENV GO111MODULE=on \
-#    CGO_ENABLED=0 \
-#    GOOS=linux \
-#    GOARCH=amd64
+RUN apt update && apt install -y --no-install-recommends ca-certificates
 
-WORKDIR /build
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+
+WORKDIR /app
 COPY . .
-#RUN go mod download
+RUN go mod download
 
-RUN go build -o main .
+RUN go build
 
-WORKDIR /dist
-RUN cp /build/main .
+## STAGE 2
+FROM scratch
+COPY --from=builder /app/nlpipe /app/
+COPY --from=builder /app/html /app/html
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
-EXPOSE 8080
+EXPOSE 8001
 
-CMD ["/dist/main"]
+WORKDIR /app
+ENTRYPOINT ["./nlpipe"]
