@@ -51,6 +51,12 @@ func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 
 	fmt.Printf("Result for %v: %v", uuid, result)
+
+	_, err = PutItem(uuid)
+
+	if err != nil {
+		w.WriteHeader(500)
+	}
 }
 
 func result(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
