@@ -1,0 +1,25 @@
+{
+    "Role": {
+        "Path": "/",
+        "RoleName": "NLPipe-Role",
+        "RoleId": "AROARAWTLFSS27KRMSR2S",
+        "Arn": "arn:aws:iam::070236449957:role/NLPipe-Role",
+        "CreateDate": "2021-06-22T19:34:17Z",
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "",
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ecs-tasks.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        },
+        "Description": "Allows ECS tasks to call AWS services on your behalf.",
+        "MaxSessionDuration": 3600,
+        "RoleLastUsed": {}
+    }
+}
