@@ -17,8 +17,8 @@ type Item struct {
 
 func GetResult(uuid string) (Item, error) {
 	sess, err := session.NewSession(&aws.Config{
-		Endpoint: aws.String("http://127.0.0.1:8000"),
-		Region:   aws.String("us-east-1"),
+		Endpoint: aws.String(cfg.DynamoDbEndpoint),
+		Region:   aws.String(cfg.Region),
 	})
 
 	svc := dynamodb.New(sess)
@@ -26,7 +26,7 @@ func GetResult(uuid string) (Item, error) {
 
 	// Query
 	result, err := svc.GetItem(&dynamodb.GetItemInput{
-		TableName: aws.String("nlpipe-results"),
+		TableName: aws.String(cfg.DynamoDbTable),
 		Key: map[string]*dynamodb.AttributeValue{
 			"uuid": {
 				S: aws.String(uuid),
@@ -50,8 +50,8 @@ func GetResult(uuid string) (Item, error) {
 
 func PutItem(uuid string) (*dynamodb.PutItemOutput, error) {
 	sess, err := session.NewSession(&aws.Config{
-		Endpoint: aws.String("http://127.0.0.1:8000"),
-		Region:   aws.String("us-east-1"),
+		Endpoint: aws.String(cfg.DynamoDbEndpoint),
+		Region:   aws.String(cfg.Region),
 	})
 
 	svc := dynamodb.New(sess)
@@ -68,7 +68,7 @@ func PutItem(uuid string) (*dynamodb.PutItemOutput, error) {
 
 	// Query
 	result, err := svc.PutItem(&dynamodb.PutItemInput{
-		TableName: aws.String("nlpipe-results"),
+		TableName: aws.String(cfg.DynamoDbTable),
 		Item:      item,
 	})
 	if err != nil {

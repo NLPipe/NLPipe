@@ -7,19 +7,61 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 	"strings"
 )
 
-func main() {
-	r := httprouter.New()
+var cfg *Config
 
-	log.Println("API listening on :8001")
+type Config struct {
+	Region           string
+	DynamoDbEndpoint string
+	DynamoDbTable    string
+	S3Endpoint       string
+	S3Bucket         string
+	S3ForcePathStyle bool
+}
+
+func loadConfigFromEnv() *Config {
+	fps, err := strconv.ParseBool(os.Getenv("S3_FORCE_PATH_STYLE"))
+	if err != nil {
+		fps = false
+	}
+
+	cfg := &Config{
+		Region:           os.Getenv("REGION"),
+		DynamoDbEndpoint: os.Getenv("DYNAMODB_ENDPOINT"),
+		DynamoDbTable:    os.Getenv("DYNAMODB_TABLE"),
+		S3Endpoint:       os.Getenv("S3_ENDPOINT"),
+		S3Bucket:         os.Getenv("S3_BUCKET"),
+		S3ForcePathStyle: fps,
+	}
+
+	return cfg
+}
+
+func (cfg Config) Dump() string {
+	ret, err := json.Marshal(cfg)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to marshal the environment variables %v", cfg))
+	}
+	return string(ret)
+}
+
+func main() {
+	cfg = loadConfigFromEnv()
+	log.Printf("Configuration from environment variables: %v\n", cfg.Dump())
+
+	r := httprouter.New()
 
 	r.GET("/", homePage)
 	r.NotFound = http.FileServer(http.Dir("html"))
 
 	r.POST("/api/upload", upload)
 	r.GET("/api/result/:uuid", result)
+
+	log.Println("API listening on :8001")
 	log.Fatal(http.ListenAndServe(":8001", r))
 }
 
@@ -35,19 +77,19 @@ func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	body, err := ioutil.ReadAll(r.Body)
 	if len(body) == 0 {
-		log.Fatalf("Empty body. Cannot process %v", uuid)
 		w.WriteHeader(400)
+		log.Fatalf("Empty body. Cannot process %v", uuid)
 	}
 	if err != nil {
-		log.Fatalf("Error while reading file %v %v", uuid, err)
 		w.WriteHeader(400)
+		log.Fatalf("Error while reading file %v %v", uuid, err)
 	}
 
 	result, err := uploadFile(uuid, body)
 
 	if err != nil {
-		log.Fatalf("Error during the upload of the file %v %v", uuid, err)
 		w.WriteHeader(500)
+		log.Fatalf("Error during the upload of the file %v %v", uuid, err)
 	}
 
 	fmt.Printf("Result for %v: %v", uuid, result)

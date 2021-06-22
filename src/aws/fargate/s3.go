@@ -11,9 +11,9 @@ import (
 
 func uploadFile(uuid string, body []byte) (*s3manager.UploadOutput, error) {
 	sess, err := session.NewSession(&aws.Config{
-		Region:           aws.String("us-east-1"),
-		Endpoint:         aws.String("http://localhost:9090"),
-		S3ForcePathStyle: aws.Bool(true),
+		Region:           aws.String(cfg.Region),
+		Endpoint:         aws.String(cfg.S3Endpoint),
+		S3ForcePathStyle: aws.Bool(cfg.S3ForcePathStyle),
 	})
 
 	file := bytes.NewReader(body)
@@ -21,7 +21,7 @@ func uploadFile(uuid string, body []byte) (*s3manager.UploadOutput, error) {
 	uploader := s3manager.NewUploaderWithClient(svc)
 
 	result, err := uploader.Upload(&s3manager.UploadInput{
-		Bucket: aws.String("nlpipe"),
+		Bucket: aws.String(cfg.S3Bucket),
 		Key:    aws.String(path.Join("uploads", uuid)),
 		Body:   file,
 	})
