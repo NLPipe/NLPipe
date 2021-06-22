@@ -8,6 +8,10 @@ bool_verbose=${args[1]}
 full_file_name="${args[2]}"
 num_of_batches=${args[3]} # can be left empty!
 
+if [[ -z "${bool_verbose// }" ]]; then
+  bool_verbose=0
+fi
+
 if [[ -z "${num_of_batches// }" ]]; then
   num_of_batches=1
 fi
