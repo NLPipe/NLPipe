@@ -39,7 +39,12 @@ def tokenizer(text):
             tokens.append(word)
     return tokens
 
-f = open('NaiveBayesClassifierTrainedModel.pickle', 'rb')
+try: model_path = sys.argv[2];
+except IndexError: model_path = "./"
+
+print("model_path: " + model_path)
+
+f = open(model_path + "NaiveBayesClassifierTrainedModel.pickle", 'rb')
 classifier_from_disk = pickle.load(f)
 f.close()
 
