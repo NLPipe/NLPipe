@@ -57,6 +57,8 @@ func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		w.WriteHeader(500)
 	}
+
+	http.Redirect(w, r, "/result.html?uuid="+uuid, http.StatusSeeOther)
 }
 
 func result(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
