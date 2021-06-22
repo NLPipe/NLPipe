@@ -2,6 +2,7 @@ import nltk.classify.util
 from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import movie_reviews
 import string
+import sys
 
 import nltk
 nltk.download('movie_reviews')
@@ -44,7 +45,8 @@ f.close()
 
 print('\nNaiveBayesClassifier loaded from disk!\n')
 
-input_text = input("Enter a sentence to classify: ")
+# input_text = input("Enter a sentence to classify: ")
+input_text = sys.argv[1]
 result, result_prob_pos, result_prob_neg = classify_text(input_text)
 print("Your sentence belong to class:", result)
 print("probability of belong to class positive is :", result_prob_pos)
