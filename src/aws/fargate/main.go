@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 )
 
 func main() {
@@ -29,7 +30,7 @@ func homePage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	uuidBytes, _ := ioutil.ReadFile("/proc/sys/kernel/random/uuid")
-	uuid := string(uuidBytes)
+	uuid := strings.TrimRight(string(uuidBytes), "\n")
 	fmt.Println("UUID:", uuid)
 
 	body, err := ioutil.ReadAll(r.Body)
