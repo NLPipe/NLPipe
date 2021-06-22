@@ -37,7 +37,9 @@ ehthumbs.db
 Thumbs.db
 
 # NLPipe-specific files #
-deploy/Lambda/speech2text/inputs/*.*
-deploy/Lambda/speech2text/outputs/*.*
-deploy/Lambda/sentiment_analysis/inputs/*.*
-deploy/Lambda/sentiment_analysis/outputs/*.*
+/benchmark_results/*
+/sentences/*
+deploy/Lambda/speech2text/inputs/*
+deploy/Lambda/sentiment_analysis/inputs/*
+deploy/Lambda/speech2text/outputs/*
+deploy/Lambda/sentiment_analysis/outputs/*
