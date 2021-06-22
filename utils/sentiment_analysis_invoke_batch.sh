@@ -22,12 +22,11 @@ do
   ../deploy/Lambda/sentiment_analysis/outputs/sentiment_analysis_output.txt \
   &
 
-  echo $i
-
 done
 
 echo ""
-echo "$batch_size parallel calls placed!"
+current_time=$(date +"%H:%M")
+echo "$batch_size parallel calls placed! --> $current_time"
 
 echo "Waiting for $batch_size parallel calls to be completed..."
 wait
