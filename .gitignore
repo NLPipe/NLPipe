@@ -35,5 +35,9 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-/benchmark_results/speech2text/*/*.txt
-/deploy/Lambda/speech2text/outputs/*
+
+# NLPipe-specific files #
+deploy/Lambda/speech2text/inputs/*.*
+deploy/Lambda/speech2text/outputs/*.*
+deploy/Lambda/sentiment_analysis/inputs/*.*
+deploy/Lambda/sentiment_analysis/outputs/*.*
