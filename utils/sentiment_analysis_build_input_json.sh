@@ -7,7 +7,7 @@ if [[ -z "${sentences_max_num// }" ]]; then
   sentences_max_num=1
 fi
 
-# echo $sentences_max_num
+mkdir -p ../deploy/Lambda/sentiment_analysis/inputs
 
 echo "Removing old files in current ../deploy/Lambda/sentiment_analysis/inputs directory..."
 rm -f ../deploy/Lambda/sentiment_analysis/inputs/*.json
