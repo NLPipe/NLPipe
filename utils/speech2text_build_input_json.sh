@@ -5,6 +5,8 @@ full_file_name="${args[1]}"
 extension="${full_file_name##*.}"
 file_name="${full_file_name%.*}"
 
+mkdir -p ../deploy/Lambda/speech2text/inputs/
+
 for (( i=1; i<=$batch_size; i++ ))
 do
   json="{
