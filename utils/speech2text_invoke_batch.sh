@@ -9,6 +9,8 @@ full_file_name="${args[1]}"
 
 file_name="${full_file_name%.*}"
 
+mkdir -p ../deploy/Lambda/speech2text/outputs/
+
 echo "Placing $batch_size parallel calls..."
 
 for (( i=1; i<=$batch_size; i++ ))
