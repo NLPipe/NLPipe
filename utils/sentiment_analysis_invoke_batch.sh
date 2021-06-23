@@ -5,11 +5,10 @@
 
 args=("$@")
 batch_size=${args[0]}
-# full_file_name="${args[1]}"
-
-# file_name="${full_file_name%.*}"
 
 echo "Placing $batch_size parallel calls..."
+
+mkdir -p ../deploy/Lambda/sentiment_analysis/outputs/
 
 for (( i=1; i<=$batch_size; i++ ))
 do
