@@ -6,6 +6,9 @@ const requestId = document.querySelector("#request-id");
 const status = document.querySelector("#data #status");
 const sentiment = document.querySelector("#data #sentiment");
 const lastUpdate = document.querySelector("#last-update span");
+const spinner = document.querySelectorAll(".spinner");
+
+requestId.textContent = uuid;
 
 // Get data
 const interval = setInterval(() => {
@@ -13,7 +16,6 @@ const interval = setInterval(() => {
     .then(response => response.json())
     .then(data => {
         const datetime = new Date();
-        requestId.textContent = uuid;
         status.textContent = data.status;
         sentiment.textContent = data.sentiment;
         lastUpdate.textContent = [
@@ -22,5 +24,11 @@ const interval = setInterval(() => {
             datetime.getMinutes(), ":",
             datetime.getSeconds()]
         .join("");
+
+        spinner.forEach(s => s.style.display = data.status == "processing" ? "inline-block" : "none");
+
+        if (data.status == "finished") {
+            clearInterval(interval);
+        }
     })
 }, 3000);

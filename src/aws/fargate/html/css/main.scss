@@ -1,0 +1,128 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Bold.woff2') format('woff2'),
+        url('/fonts/Inter-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Regular.woff2') format('woff2'),
+        url('/fonts/Inter-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Medium.woff2') format('woff2'),
+        url('/fonts/Inter-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Light.woff2') format('woff2'),
+        url('/fonts/Inter-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+$fonts-body: 'Inter', 'Arial', 'sans-serif';
+
+$color-primary: #455a64;
+$color-dark: #1c313a;
+$color-light: #718792;
+$color-whitish: #fafafa;
+$color-greysh: #e1e2e1;
+$color-red: #d32f2f;
+
+body {
+    font-family: $fonts-body;
+    background: $color-light;
+    color: $color-dark;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+}
+
+.card {
+    margin-top: 30px;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    padding: 30px;
+    background: $color-whitish;
+    width: 450px;
+
+    &.results {
+        width: 570px;
+
+        span {
+            font-weight: 500;
+        }
+
+        .spinner {
+            display: inline-block;
+            border: 5px solid $color-dark;
+            border-radius: 50%;
+            border-top: 5px solid $color-light;
+            width: 13px;
+            height: 13px;
+            -webkit-animation: spin 1.5s linear infinite;
+            animation: spin 1.5s linear infinite;
+            vertical-align: bottom;
+            margin-left: 10px;
+        }
+
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    }
+
+    h1 {
+        margin-top: 0px;
+    }
+
+    .subtitle {
+        display: block;
+        font-size: 0.7em;
+        margin-top: 10px;
+        font-weight: 500;
+    }
+    
+    p {
+        font-weight: 300;
+    }
+
+    input[type=submit] {
+        float: right;
+        background: $color-primary;
+        color: $color-whitish;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        text-transform: uppercase;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.1s ease;
+
+        &:hover {
+            background: $color-light;
+            color: $color-whitish;
+        }
+    }
+
+}
