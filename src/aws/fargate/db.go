@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
-	"log"
+	log "github.com/sirupsen/logrus"
 )
 
 type Item struct {
@@ -36,14 +35,14 @@ func GetResult(uuid string) (Item, error) {
 
 	// Abort on any error
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Error(err.Error())
 		return item, err
 	}
 
 	// Unmarshal and return
 	err = dynamodbattribute.UnmarshalMap(result.Item, &item)
 	if err != nil {
-		panic(fmt.Sprintf("Failed to unmarshal, %v", err))
+		log.Errorf("Failed to unmarshal: %v", err)
 	}
 	return item, nil
 }
@@ -62,7 +61,7 @@ func PutItem(uuid string) (*dynamodb.PutItemOutput, error) {
 		Status: "processing",
 	})
 	if err != nil {
-		log.Fatalf("Error while marshaling map for %v %v", uuid, err)
+		log.Errorf("Error while marshaling map for %v: %v", uuid, err)
 		return nil, err
 	}
 
@@ -72,7 +71,7 @@ func PutItem(uuid string) (*dynamodb.PutItemOutput, error) {
 		Item:      item,
 	})
 	if err != nil {
-		log.Fatalf("Error while putting item %v in DynamoDB %v", uuid, err)
+		log.Errorf("Error while putting item %v in DynamoDB: %v", uuid, err)
 	}
 
 	return result, err

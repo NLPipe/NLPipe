@@ -2,10 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/julienschmidt/httprouter"
+	log "github.com/sirupsen/logrus"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -44,14 +43,14 @@ func loadConfigFromEnv() *Config {
 func (cfg Config) Dump() string {
 	ret, err := json.Marshal(cfg)
 	if err != nil {
-		panic(fmt.Sprintf("Failed to marshal the environment variables %v", cfg))
+		log.Panicf("Failed to marshal the environment variables %v", cfg)
 	}
 	return string(ret)
 }
 
 func main() {
 	cfg = loadConfigFromEnv()
-	log.Printf("Configuration from environment variables: %v\n", cfg.Dump())
+	log.Infof("Configuration from environment variables: %v\n", cfg.Dump())
 
 	r := httprouter.New()
 
@@ -61,7 +60,7 @@ func main() {
 	r.POST("/api/upload", upload)
 	r.GET("/api/result/:uuid", result)
 
-	log.Println("API listening on :8001")
+	log.Info("API listening on :8001")
 	log.Fatal(http.ListenAndServe(":8001", r))
 }
 
@@ -73,31 +72,29 @@ func homePage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	uuidBytes, _ := ioutil.ReadFile("/proc/sys/kernel/random/uuid")
 	uuid := strings.TrimRight(string(uuidBytes), "\n")
-	fmt.Println("UUID:", uuid)
+	log.Debugf("New request, UUID: %v", uuid)
 
 	body, err := ioutil.ReadAll(r.Body)
 	if len(body) == 0 {
-		w.WriteHeader(400)
-		log.Fatalf("Empty body. Cannot process %v", uuid)
+		w.WriteHeader(http.StatusBadRequest)
 	}
 	if err != nil {
-		w.WriteHeader(400)
-		log.Fatalf("Error while reading file %v %v", uuid, err)
+		w.WriteHeader(http.StatusBadRequest)
+		log.Warningf("Error while reading file %v: %v", uuid, err)
 	}
 
-	result, err := uploadFile(uuid, body)
+	_, err = uploadFile(uuid, body)
 
 	if err != nil {
-		w.WriteHeader(500)
-		log.Fatalf("Error during the upload of the file %v %v", uuid, err)
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Errorf("Error during the upload of the file %v: %v", uuid, err)
 	}
-
-	fmt.Printf("Result for %v: %v", uuid, result)
 
 	_, err = PutItem(uuid)
 
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Errorf("Error while putting on DynamoDB %v: %v", uuid, err)
 	}
 
 	http.Redirect(w, r, "/result.html?uuid="+uuid, http.StatusSeeOther)
@@ -109,19 +106,21 @@ func result(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	// Take the `uuid` request parameter
 	uuid := p.ByName("uuid")
 	if uuid == "" {
-		w.WriteHeader(400)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	// Make the query
 	item, err := GetResult(uuid)
 	if err != nil {
-		panic(fmt.Sprintf("Query error, %v", err))
+		log.Errorf("Result query error: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	// Check if the UUID doesn't exist in the DB
 	if item.UUID == "" {
-		w.WriteHeader(404)
+		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
@@ -129,6 +128,7 @@ func result(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	json, err := json.Marshal(item)
 	if err != nil {
 		w.WriteHeader(500)
+		log.Errorf("Failed to marshal the result: %v", err)
 		return
 	}
 
@@ -136,6 +136,7 @@ func result(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	if err != nil {
 		w.WriteHeader(500)
+		log.Errorf("Failed to write the JSON: %v", err)
 		return
 	}
 }
