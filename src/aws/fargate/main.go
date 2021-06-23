@@ -5,6 +5,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"strconv"
@@ -74,16 +75,39 @@ func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	uuid := strings.TrimRight(string(uuidBytes), "\n")
 	log.Debugf("New request, UUID: %v", uuid)
 
-	body, err := ioutil.ReadAll(r.Body)
-	if len(body) == 0 {
-		w.WriteHeader(http.StatusBadRequest)
-	}
+	// Max 10 MB
+	err := r.ParseMultipartForm(10 << 20)
+	file, handler, err := r.FormFile("file")
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		log.Warningf("Error while reading file %v: %v", uuid, err)
+		log.Warningf("Error while reading the file: %v", err)
+	}
+	defer func(file multipart.File) {
+		err := file.Close()
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			log.Errorf("Error while closing file. %v", err)
+		}
+	}(file)
+
+	if strings.Split(handler.Header.Get("Content-Type"), "/")[0] != "audio" {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Warningf("Got a non audio file. Aborting.")
+		return
 	}
 
-	_, err = uploadFile(uuid, body)
+	if handler.Size == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Warningf("Got a 0-size file. Aborting.")
+	}
+
+	fileBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Warningf("Error while reading file bytes for %v: %v", uuid, err)
+	}
+
+	_, err = uploadFile(uuid, fileBytes)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

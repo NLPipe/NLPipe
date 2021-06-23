@@ -21,9 +21,10 @@ func uploadFile(uuid string, body []byte) (*s3manager.UploadOutput, error) {
 	uploader := s3manager.NewUploaderWithClient(svc)
 
 	result, err := uploader.Upload(&s3manager.UploadInput{
-		Bucket: aws.String(cfg.S3Bucket),
-		Key:    aws.String(path.Join("uploads", uuid)),
-		Body:   file,
+		Bucket:      aws.String(cfg.S3Bucket),
+		Key:         aws.String(path.Join(uuid)),
+		ContentType: aws.String("audio/wav"),
+		Body:        file,
 	})
 
 	return result, err
