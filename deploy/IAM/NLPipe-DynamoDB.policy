@@ -1,0 +1,16 @@
+{
+    "Policy": {
+        "PolicyName": "NLPipe-DynamoDB",
+        "PolicyId": "ANPARAWTLFSSVZL2FOR5W",
+        "Arn": "arn:aws:iam::070236449957:policy/NLPipe-DynamoDB",
+        "Path": "/",
+        "DefaultVersionId": "v1",
+        "AttachmentCount": 1,
+        "PermissionsBoundaryUsageCount": 0,
+        "IsAttachable": true,
+        "Description": "Allow NLPipe operations on its DynamoDB table",
+        "CreateDate": "2021-06-22T19:33:19Z",
+        "UpdateDate": "2021-06-22T19:33:19Z",
+        "Tags": []
+    }
+}

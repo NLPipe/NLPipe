@@ -1,0 +1,19 @@
+{
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "uuid",
+            "AttributeType": "S"
+        }
+    ],
+    "TableName": "nlpipe-results",
+    "KeySchema": [
+        {
+            "AttributeName": "uuid",
+            "KeyType": "HASH"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+    }
+}
