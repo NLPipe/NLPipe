@@ -1,0 +1,108 @@
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Bold.woff2") format("woff2"), url("/fonts/Inter-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Regular.woff2") format("woff2"), url("/fonts/Inter-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Medium.woff2") format("woff2"), url("/fonts/Inter-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Light.woff2") format("woff2"), url("/fonts/Inter-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+body {
+  font-family: "Inter", "Arial", "sans-serif";
+  background: #718792;
+  color: #1c313a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+.card {
+  margin-top: 30px;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  padding: 30px;
+  background: #fafafa;
+  width: 450px;
+}
+.card.results {
+  width: 570px;
+}
+.card.results span {
+  font-weight: 500;
+}
+.card.results .spinner {
+  display: inline-block;
+  border: 5px solid #1c313a;
+  border-radius: 50%;
+  border-top: 5px solid #718792;
+  width: 13px;
+  height: 13px;
+  -webkit-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
+  vertical-align: bottom;
+  margin-left: 10px;
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.card h1 {
+  margin-top: 0px;
+}
+.card .subtitle {
+  display: block;
+  font-size: 0.7em;
+  margin-top: 10px;
+  font-weight: 500;
+}
+.card p {
+  font-weight: 300;
+}
+.card input[type=submit] {
+  float: right;
+  background: #455a64;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+.card input[type=submit]:hover {
+  background: #718792;
+  color: #fafafa;
+}/*# sourceMappingURL=main.css.map */

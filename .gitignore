@@ -1,3 +1,7 @@
+# IDEs and similar #
+####################
+.idea/
+
 # Compiled source #
 ###################
 *.com

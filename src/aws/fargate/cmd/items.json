@@ -1,0 +1,28 @@
+{
+    "nlpipe-results": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "uuid": { "S": "testfp" },
+                    "status": { "S": "finished" },
+                    "sentiment": { "S": "positive" }
+                }
+            }
+        },
+        {  "PutRequest": {
+                "Item": {
+                    "uuid": { "S": "testfn" },
+                    "status": { "S": "finished" },
+                    "sentiment": { "S": "negative" }
+                }
+            }
+        },
+        {   "PutRequest": {
+                "Item": {
+                    "uuid": { "S": "testp" },
+                    "status": { "S": "processing" }
+                }
+            }
+        }
+    ]
+}
