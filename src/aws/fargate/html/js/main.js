@@ -2,6 +2,7 @@
 const uuid = new URLSearchParams(window.location.search).get("uuid");
 
 // Locate the HTML elements to show data in
+const dataContainer = document.querySelector("#data");
 const requestId = document.querySelector("#request-id");
 const status = document.querySelector("#data #status");
 const sentiment = document.querySelector("#data #sentiment");
@@ -13,7 +14,14 @@ requestId.textContent = uuid;
 // Get data
 const interval = setInterval(() => {
     fetch("/api/result/" + uuid)
-    .then(response => response.json())
+    .then(response => {
+        if (response.status != 200) {
+            dataContainer.textContent = response.status + ": " + response.statusText;
+            lastUpdate.parentNode.style.display = "none";
+            throw new Error();
+        }
+        response.json();
+    })
     .then(data => {
         const datetime = new Date();
         status.textContent = data.status;
@@ -28,7 +36,15 @@ const interval = setInterval(() => {
         spinner.forEach(s => s.style.display = data.status == "processing" ? "inline-block" : "none");
 
         if (data.status == "finished") {
-            clearInterval(interval);
+            stopPolling();
+            return;
         }
     })
+    .catch(() => {
+        stopPolling();
+    })
 }, 3000);
+
+function stopPolling() {
+    clearInterval(interval);
+}
