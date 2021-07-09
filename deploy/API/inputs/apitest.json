@@ -1,0 +1,52 @@
+{
+	"info": {
+		"_postman_id": "74755120-8b68-40c0-a9d2-947ae4200546",
+		"name": "NLPipe",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "sample",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/danielesolombrino/University/Masters Degree/Classes/Doing/CC/speech2text_audio/audio/please_call_stella/please_call_stella_1.wav"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8001/api/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
