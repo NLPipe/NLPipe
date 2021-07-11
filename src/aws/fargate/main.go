@@ -73,7 +73,6 @@ func homePage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	uuidBytes, _ := ioutil.ReadFile("/proc/sys/kernel/random/uuid")
 	uuid := strings.TrimRight(string(uuidBytes), "\n")
-	log.Debugf("New request, UUID: %v", uuid)
 
 	// Max 10 MB
 	err := r.ParseMultipartForm(10 << 20)
@@ -81,12 +80,14 @@ func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		log.Warningf("Error while reading the file: %v", err)
+		return
 	}
 	defer func(file multipart.File) {
 		err := file.Close()
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Errorf("Error while closing file. %v", err)
+			return
 		}
 	}(file)
 
@@ -99,12 +100,14 @@ func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if handler.Size == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		log.Warningf("Got a 0-size file. Aborting.")
+		return
 	}
 
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		log.Warningf("Error while reading file bytes for %v: %v", uuid, err)
+		return
 	}
 
 	_, err = uploadFile(uuid, fileBytes)
@@ -112,6 +115,7 @@ func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Errorf("Error during the upload of the file %v: %v", uuid, err)
+		return
 	}
 
 	_, err = PutItem(uuid)
@@ -119,6 +123,7 @@ func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Errorf("Error while putting on DynamoDB %v: %v", uuid, err)
+		return
 	}
 
 	http.Redirect(w, r, "/result.html?uuid="+uuid, http.StatusSeeOther)
