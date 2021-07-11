@@ -34,10 +34,14 @@
 					]
 				},
 				"url": {
-					"raw": "52.86.49.239/api/upload",
+					"raw": "http://nlpipe-alb-666744911.us-east-1.elb.amazonaws.com/api/upload",
 					"protocol": "http",
 					"host": [
-						"52.86.49.239"
+						"nlpipe-alb-666744911",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
 					],
 					"port": "80",
 					"path": [
