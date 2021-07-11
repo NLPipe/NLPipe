@@ -29,7 +29,7 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/home/daniele/Documents/GitHub/NLPipe/deploy/API/inputs/a.wav"
+							"src": "/home/fortym2/Scaricati/audio_a.wav"
 						}
 					]
 				},
@@ -43,7 +43,6 @@
 						"amazonaws",
 						"com"
 					],
-					"port": "80",
 					"path": [
 						"api",
 						"upload"
