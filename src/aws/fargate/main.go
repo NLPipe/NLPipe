@@ -8,6 +8,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"runtime/debug"
 	"strconv"
 	"strings"
 )
@@ -77,6 +78,8 @@ func upload(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Max 10 MB
 	err := r.ParseMultipartForm(10 << 20)
 	file, handler, err := r.FormFile("file")
+	// force a GC cycle to free up uploaded data memory
+	debug.FreeOSMemory()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		log.Warningf("Error while reading the file: %v", err)
