@@ -7,7 +7,9 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
+	"net/http/pprof"
 	"os"
+	"runtime/debug"
 	"strconv"
 	"strings"
 )
@@ -60,6 +62,10 @@ func main() {
 
 	r.POST("/api/upload", upload)
 	r.GET("/api/result/:uuid", result)
+
+	// pprof endpoints
+	r.HandlerFunc("GET", "/debug/pprof/", pprof.Index)
+	r.HandlerFunc("GET", "/debug/pprof/:action", pprof.Index)
 
 	log.Info("API listening on :8001")
 	log.Fatal(http.ListenAndServe(":8001", r))
