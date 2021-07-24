@@ -9,7 +9,7 @@
 
 ## What is it?
 
-NLPipe is a serverless infrastructure to perform sentiment analysis out of audio files. It has been developed as a project for the **Cloud Computing 2021-22 course** at Sapienza University of Rome.
+NLPipe is a serverless infrastructure to perform sentiment analysis out of audio files. It has been developed as a project for the **Cloud Computing 2020-2021 course** at Sapienza University of Rome.
 
 The system is composed of multiple **independent components** the perform specific tasks; specifically:
 
