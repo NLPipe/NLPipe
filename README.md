@@ -1,7 +1,7 @@
 <div>
 	<h1>🤖 NLPipe</h1>
 	<p>Serverless Sentiment Analysis</p>
-	<p>By <a href="//github.com/fortym2">Davide Quaranta</a>, <a href="//github.com/DS98">Daniele Solombrino</a>, <a href="//github.com/edogab33">Edoardo Gabrielli</a></p>
+	<p>By <a href="//github.com/fortym2">Davide Quaranta</a>, <a href="//github.com/dansolombrino">Daniele Solombrino</a>, <a href="//github.com/edogab33">Edoardo Gabrielli</a></p>
 </div>
 
 |![image-20210711140020766](docs/nlpipe-screenshot.png)|![img](docs/nlpipe-screenshot-2.png)|
